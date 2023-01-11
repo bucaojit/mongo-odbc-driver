@@ -31,12 +31,13 @@ impl MongoQuery {
     ) -> Result<Self> {
         let current_db = client.current_db.as_ref().ok_or(Error::NoDatabase)?;
         let db = client.client.database(current_db);
+        let query_replaced = query.replace("�","`");
 
         // 1. Run the sqlGetResultSchema command to get the result set
         // metadata. Column metadata is sorted alphabetically by table
         // and column name.
         let get_result_schema_cmd =
-            doc! {"sqlGetResultSchema": 1, "query": query, "schemaVersion": 1};
+            doc! {"sqlGetResultSchema": 1, "query": &query_replaced, "schemaVersion": 1};
 
         let get_result_schema_response: SqlGetSchemaResponse =
             bson::from_document(db.run_command(get_result_schema_cmd, None)?)
@@ -48,7 +49,7 @@ impl MongoQuery {
         let pipeline = vec![doc! {"$sql": {
             "format": "odbc",
             "formatVersion": 1,
-            "statement": query,
+            "statement": query_replaced,
         }}];
 
         let options = query_timeout.map(|i| {

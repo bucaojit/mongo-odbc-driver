@@ -1273,7 +1273,12 @@ pub unsafe extern "C" fn SQLFetchScroll(
     _fetch_orientation: FetchOrientation,
     _fetch_offset: Len,
 ) -> SqlReturn {
-    unimpl!(statement_handle);
+    panic_safe_exec!(
+        || {
+    return SqlReturn::SUCCESS;
+            },
+        statement_handle
+        );
 }
 
 ///
@@ -1325,7 +1330,12 @@ pub unsafe extern "C" fn SQLForeignKeysW(
     _fk_table_name: *const WChar,
     _fk_table_name_length: SmallInt,
 ) -> SqlReturn {
-    unimpl!(statement_handle);
+    panic_safe_exec!(
+        || {
+    return SqlReturn::SUCCESS;
+            },
+        statement_handle
+        );
 }
 
 ///
@@ -2828,7 +2838,12 @@ pub unsafe extern "C" fn SQLPrimaryKeysW(
     _table_name: *const WChar,
     _table_name_length: SmallInt,
 ) -> SqlReturn {
-    unimpl!(statement_handle);
+    panic_safe_exec!(
+        || {
+    return SqlReturn::SUCCESS;
+            },
+        statement_handle
+        );
 }
 
 ///

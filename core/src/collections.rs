@@ -95,7 +95,7 @@ impl MongoCollections {
             .list_database_names(None, None)
             .unwrap()
             .iter()
-            .filter(|val| match &db_name_filter_regex {
+            .filter(|_| match &db_name_filter_regex {
                 Some(val) => val.is_match(val.as_str()),
                 None => true,
             })
