@@ -31,7 +31,7 @@ impl MongoQuery {
     ) -> Result<Self> {
         let current_db = client.current_db.as_ref().ok_or(Error::NoDatabase)?;
         let db = client.client.database(current_db);
-        let query_replaced = query.replace("�","`");
+        let query_replaced = query.replace('�', "`");
 
         // 1. Run the sqlGetResultSchema command to get the result set
         // metadata. Column metadata is sorted alphabetically by table
