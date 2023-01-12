@@ -243,6 +243,7 @@ pub mod simplified {
         }
     }
 
+    /*
     impl From<Schema> for BsonTypeInfo {
         fn from(v: Schema) -> Self {
             match v {
@@ -251,6 +252,30 @@ pub mod simplified {
                 Schema::Atomic(Atomic::Object(_)) => BsonTypeInfo::OBJECT,
                 Schema::Atomic(Atomic::Array(_)) => BsonTypeInfo::ARRAY,
                 Schema::AnyOf(_) => BsonTypeInfo::BSON,
+            }
+        }
+    }
+
+     */
+    impl From<Schema> for BsonTypeInfo {
+        fn from(v: Schema) -> Self {
+            match v {
+                Schema::Atomic(Atomic::Any) => BsonTypeInfo::BSON,
+                Schema::Atomic(Atomic::Scalar(t)) => t.into(),
+                Schema::Atomic(Atomic::Object(_)) => BsonTypeInfo::OBJECT,
+                Schema::Atomic(Atomic::Array(_)) => BsonTypeInfo::ARRAY,
+
+                Schema::AnyOf(mut x) => match x.len() {
+                    1 => match x.iter().next().unwrap() {
+                        Atomic::Any => BsonTypeInfo::BSON,
+                        // Atomic::Scalar(t) => *t.into(),
+                        Atomic::Scalar(t) => (*t).into(),
+                        Atomic::Object(_) => BsonTypeInfo::OBJECT,
+                        Atomic::Array(_) => BsonTypeInfo::ARRAY,
+                        _ => BsonTypeInfo::BSON,
+                    },
+                    _ => BsonTypeInfo::BSON,
+                }
             }
         }
     }
