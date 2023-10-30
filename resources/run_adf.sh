@@ -393,8 +393,8 @@ if [ $ARG = $START ]; then
     fi
     rm -f $MONGOHOUSE_MQLRUN
     $GO run cmd/buildscript/build.go tools:download:mqlrun
-    rm -f $MONGOSQL_LIB
-    $GO run cmd/buildscript/build.go tools:download:mongosql
+#    rm -f $MONGOSQL_LIB
+#    $GO run cmd/buildscript/build.go tools:download:mongosql
 
     get_jq
     # Load tenant config into mongodb

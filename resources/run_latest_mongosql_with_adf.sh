@@ -30,7 +30,7 @@ check_return_code() {
 $RUN_ADF stop
 
 # Run ADF once to download code and setup needed directories
-if [[ ! -d "./local_adf" ]]; then
+if [[ ! -d "./local_adf/mongohouse/artifacts" ]]; then
   $RUN_ADF start
   check_return_code $? "Failed to start run_adf.sh"
   $RUN_ADF stop
