@@ -12,6 +12,7 @@ members = [
     "logger",
     "macos_postinstall",
     "rfc8252_http_server",
+    "connectivity_tester",
 ]
 
 
